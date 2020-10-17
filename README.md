@@ -1,1 +1,1 @@
-# promise-all-playground
+get better performace with promise.all
