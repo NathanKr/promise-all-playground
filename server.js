@@ -3,7 +3,7 @@ const chalk = require('chalk');
 const axios = require('axios');
 const baseUrl = 'https://api.ratesapi.io/api/2010-11-';
 
-let sum = 0,startDt,endDt;;
+let startDt,endDt;;
     const days = 28;
 
 function getCurrentTime(){
@@ -23,8 +23,9 @@ async function getRateGDB(response){
 }
 
 async function computeSumRegular(){
+    let sum = 0;
     for (let day = 1; day <= days; day++) {
-        const response = await axios.get(`${baseUrl}${day}`);
+        const response = await getPromiseResponse(day);
         // --- todo nath why is the following needed, is it like fetch ??
         const rateGDB = await getRateGDB(response);
         sum += rateGDB;
@@ -32,11 +33,15 @@ async function computeSumRegular(){
     return sum;
 }
 
+function getPromiseResponse(day) {
+    return axios.get(`${baseUrl}${day}`);
+}
+
 async function computeSumPromiseAll(){
     let promiseArray = [] , sum = 0;
 
     for (let day = 1; day <= days; day++) {
-        promiseArray.push(axios.get(`${baseUrl}${day}`))
+        promiseArray.push(getPromiseResponse(day))
     }
 
     let responses = await Promise.all(promiseArray);
