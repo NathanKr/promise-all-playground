@@ -4,14 +4,14 @@ const axios = require('axios');
 const month = 11 , year = 2010;
 const baseUrl = `https://api.ratesapi.io/api/${year}-${month}-`;
 
-let startDt,endDt;;
-    const days = 28;
+let startDt,endDt;
+const days = 28;
 
 function getCurrentTime(){
     return new Date();
 }
 
-async function getRateGDB(response){
+function getRateGDB(response){
     const status = response.status;
     if(status == 200){
         const rates = response.data.rates
